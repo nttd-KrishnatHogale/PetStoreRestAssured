@@ -12,11 +12,20 @@
 <!--                <include name="testDeleteUserByName"/>-->
 <!--            </methods>-->
 <!--        </class>-->
-            <class name="api.test.userTest">
+<!--            <class name="api.test.userTest">-->
+<!--                <methods>-->
+<!--                    <include name="testPostUser"/>-->
+<!--                    <include name="testGetUserByName"/>-->
+<!--                    <include name="testUpdateUserByName"/>-->
+<!--                    <include name="testDeleteUserByName"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+            <class name="api.test.userTest2">
                 <methods>
                     <include name="testPostUser"/>
                     <include name="testGetUserByName"/>
                     <include name="testUpdateUserByName"/>
                     <include name="testDeleteUserByName"/>
                 </methods>
-            </class></classes></test></suite>
+            </class>
+        </classes></test></suite>

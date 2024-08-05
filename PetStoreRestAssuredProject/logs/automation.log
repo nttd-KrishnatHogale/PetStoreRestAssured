@@ -68,3 +68,12 @@
 18:03:50.797 [main] INFO  api.test.userTest - **********user is updated ****************
 18:03:50.800 [main] INFO  api.test.userTest - ************deleteing User *****************
 18:03:51.749 [main] INFO  api.test.userTest - *********** user deleted ***************
+05:06:06.813 [main] DEBUG api.test.userTest2 - debugging
+05:06:06.828 [main] INFO  api.test.userTest2 - ******************crarting user*******************
+05:06:09.870 [main] INFO  api.test.userTest2 - ************* User is Created ***********************
+05:06:09.885 [main] INFO  api.test.userTest2 - ********************** Reading usr info **************
+05:06:10.870 [main] INFO  api.test.userTest2 - ************** user info is displayed ******************
+05:06:10.873 [main] INFO  api.test.userTest2 - *****************updatin user****************
+05:06:12.816 [main] INFO  api.test.userTest2 - **********user is updated ****************
+05:06:12.819 [main] INFO  api.test.userTest2 - ************deleteing User *****************
+05:06:13.783 [main] INFO  api.test.userTest2 - *********** user deleted ***************
