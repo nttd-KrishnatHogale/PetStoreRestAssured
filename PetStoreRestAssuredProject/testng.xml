@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <listeners>
-        <listener class-name="api.utilities.ExtentReportManager"></listener>
+        <listener class-name="api.utilities.ExtentReportManager"/>
     </listeners>
     <test verbose="2" preserve-order="true" name="C:/Users/Anuj/Desktop/PetStoreRestAssured/PetStoreRestAssuredProject">
         <classes>
@@ -26,6 +26,15 @@
                     <include name="testGetUserByName"/>
                     <include name="testUpdateUserByName"/>
                     <include name="testDeleteUserByName"/>
+                </methods>
+            </class>
+
+            <class name="api.test.PetTests">
+                <methods>
+                    <include name="testPostPet"/>
+                    <include name="testGetPetById"/>
+                    <include name="testUpdatePetById"/>
+                    <include name="testDeletePetById"/>
                 </methods>
             </class>
         </classes></test></suite>
