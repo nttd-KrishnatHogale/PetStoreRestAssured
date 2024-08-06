@@ -19,29 +19,25 @@ public class PetEndpoints {
         return response;
 
     }
-//int id =1;
-//
     public  static Response readPet(Integer id){
         Response response = given()
                 .pathParam("id",id)
                 .when()
                 .get(Routes.get_url_pet);
         return response;
-
     }
-
     public  static Response updatePet(Integer id, Pet payload){
         Response response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/x-www-form-urlencoded")
                 .accept(ContentType.JSON)
-                .body(payload)
+//                .body(payload)
+                .formParam("name",payload.getName())
+                .formParam("status",payload.getStatus())
                 .pathParam("id",id)
                 .when()
-                .put(Routes.update_url_pet);
+                .post(Routes.update_url_pet);
         return response;
-
     }
-
     public  static Response deletePet(Integer id){
         Response response = given()
                 .pathParam("id",id)

@@ -4,19 +4,28 @@ import api.endpoints.PetEndpoints;
 import api.payload.Pet;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-public class PetTests {
+
+
+public class    PetTests {
     Faker faker;
     Pet petPayload;
+    Pet.Category category;
+    //    Pet.Tag tags;
+    public Logger logger;
     public Integer petid;
+
     @BeforeClass
-   public void setUpData(){
-       faker =new Faker();
-       petPayload= new Pet();
+    public void setUpData() {
+        faker = new Faker();
+        petPayload = new Pet();
 
         Pet.Category category = new Pet.Category();
         category.setId(faker.number().numberBetween(1, 100));
@@ -25,40 +34,86 @@ public class PetTests {
 
         List<Pet.Tag> tags = new ArrayList<>();
 //        for (int i = 0; i < 3; i++) {
-            Pet.Tag tag = new Pet.Tag();
-            tag.setId(faker.number().numberBetween(1, 100));
-            tag.setName(faker.lorem().word());
-            tags.add(tag);
+        Pet.Tag tag = new Pet.Tag();
+        tag.setId(faker.number().numberBetween(1, 100));
+        tag.setName(faker.lorem().word());
+        tags.add(tag);
 //        }
 
-       petPayload.setId(faker.idNumber().hashCode());
-       petPayload.setCategory(category);
-       petPayload.setName(faker.animal().name());
+        petPayload.setId(faker.idNumber().hashCode());
+        petPayload.setCategory(category);
+        petPayload.setName(faker.animal().name());
         petPayload.setPhotoUrls(List.of(faker.avatar().image()));
         petPayload.setTags(tags);
         petPayload.setStatus(faker.options().option("available", "pending", "sold"));
 
+        logger = LogManager.getLogger(this.getClass());
     }
-@Test(priority = 1)
-    public  void  testPostPet(){
-    Response response = PetEndpoints.createPet(petPayload);
-    response.then().log().all();
-//    System.out.println(response.body());
-    response.getBody().asString();
-    Integer petid = response.jsonPath().getInt("id");
-    System.out.println("ID from psit request"+petid);
-    petPayload.setId(petid);
-    Assert.assertEquals(response.statusCode(),200);
+
+    @Test(priority = 1)
+    public void testPostPet() {
+
+        logger.info("********* Creating Pet***********");
+        Response response = PetEndpoints.createPet(petPayload);
+        response.then().log().all();
+        response.getBody().asString();
+        Integer petid = response.jsonPath().getInt("id");
+        System.out.println("ID from psit request" + petid);
+        petPayload.setId(petid);
+        Assert.assertEquals(response.statusCode(), 200);
+        logger.info("********pet created***********");
 
     }
 
     @Test(priority = 2)
-    public  void testGetPetById(){
-        System.out.println("petid in testGetPet"+this.petPayload.getId());
-        Response response=PetEndpoints.readPet(this.petPayload.getId());
+    public void testGetPetById() {
+        logger
+                .info("****GEt Pet*******");
+        System.out.println("petid in testGetPet" + this.petPayload.getId());
+        Response response = PetEndpoints.readPet(this.petPayload.getId());
         response.then().log().all();
         response.statusCode();
-        Assert.assertEquals(response.getStatusCode(),200);
+        Assert.assertEquals(response.getStatusCode(), 200);
+        logger
+                .info("********** Get Pet Complted ****");
 
+    }
+
+    @Test(priority = 3)
+    public void testUpdatePetById() {
+        logger.info("**** update pet  *********");
+//        update data using payload
+//        petPayload.setCategory(category);
+        petPayload.setName(faker.animal().name());
+//        petPayload.setPhotoUrls(List.of(faker.avatar().image()));
+//        petPayload.setTags((List<Pet.Tag>) tags);
+        petPayload.setStatus(faker.options().option("available", "pending", "sold"));
+
+
+        System.out.println("Id IN Update request" + this.petPayload.getId() + "animal" + this.petPayload.getName() + "statys" + this
+                .petPayload.getStatus());
+        Response response = PetEndpoints.updatePet(this.petPayload.getId(), petPayload);
+        response.then().log().all();
+        response.statusCode();
+        Assert.assertEquals(response.getStatusCode(), 200);
+
+        ///checkmng data after update
+        Response responseAfterUpdate = PetEndpoints.readPet(this.petPayload.getId());
+        response.then().log().all();
+        response.statusCode();
+        Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
+        logger
+                .info("******** Update Pet complete*******");
+
+    }
+
+    @Test(priority = 4)
+    public void testDeletePetById() {
+        logger.info("***** delete pet*****");
+        Response response = PetEndpoints.deletePet(this.petPayload.getId());
+        Assert.assertEquals(response.getStatusCode(), 200);
+        logger
+
+                .info("***8 pet deleted*******");
     }
 }
