@@ -22,4 +22,9 @@ public class Routes {
     public static String update_url_pet = base_url+"/pet/{id}";
     public static String delete_url_pet = base_url+"/pet/{id}";
 
+    public  static String post_url_store = base_url+"/store/order";
+    public static String get_url_store = base_url+"/store/order/{id}";
+    public static String get_url_store_inventory = base_url+"/store/inventory";
+    public static String delete_url_store = base_url+"/store/order/{id}";
+
 }
