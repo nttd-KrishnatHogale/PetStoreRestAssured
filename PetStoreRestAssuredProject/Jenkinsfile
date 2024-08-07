@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/nttd-KrishnatHogale/PetStoreRestAssured.git'
+                REPORTS_DIR = 'PetStoreRestAssuredProject/reports' // Path to your reports directory
+
 //         MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
 //         ALLURE_RESULTS_DIR = 'target/allure-results'
 //         ALLURE_REPORT_DIR = 'target/allure-report'
@@ -24,24 +26,11 @@ stages {
             }
         }
 
-        stage('Archive Latest Report') {
+        stage('Archive Reports') {
                     steps {
-                        script {
-                            // Create the directory for the latest report if it doesn't exist
-                            bat "if not exist ${LATEST_REPORT_DIR} mkdir ${LATEST_REPORT_DIR}"
-
-                            // Find and copy the latest report to the directory
-                            bat """
-                            for /d %%D in (${REPORTS_DIR}\\*) do (
-                                xcopy /s /e /y "%%D" "${LATEST_REPORT_DIR}\\"
-                            )
-                            """
-                            // Archive the report
-                            archiveArtifacts artifacts: "${LATEST_REPORT_DIR}/**", allowEmptyArchive: true
-
-                        }
+                        // Archive the contents of the reports directory
+                        archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
                     }
-        }
-        }
+                }
 
 }
