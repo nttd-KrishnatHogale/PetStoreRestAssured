@@ -32,5 +32,6 @@ stages {
                         archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
                     }
                 }
+                }
 
 }
