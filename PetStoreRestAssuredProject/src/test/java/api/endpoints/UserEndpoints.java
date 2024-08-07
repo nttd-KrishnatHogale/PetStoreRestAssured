@@ -24,6 +24,7 @@ public class UserEndpoints {
                 .pathParam("username",username)
                 .when()
                 .get(Routes.get_url);
+        System.out.println(Routes.get_url.toString()+username);
         return response;
 
     }

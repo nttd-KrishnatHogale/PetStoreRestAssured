@@ -33,6 +33,7 @@ public class UserEndpoints2 {
                 .pathParam("username",username)
                 .when()
                 .get(get_url);
+        System.out.println(get_url+username);
         return response;
     }
 

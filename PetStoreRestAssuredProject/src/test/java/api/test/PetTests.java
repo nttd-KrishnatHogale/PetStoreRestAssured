@@ -55,28 +55,24 @@ public class    PetTests {
         petPayload.setId(petid);
         Assert.assertEquals(response.statusCode(), 200);
         try {
-            Thread.sleep(2000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         logger.info("********pet created***********");
     }
 
     @Test(priority = 2)
     public void testGetPetById() throws InterruptedException {
         logger.info("****GEt Pet*******");
-        try {
-            Thread.sleep(1000); // 2 seconds delay
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("petid in testGetPet" + this.petPayload.getId());
+        System.out.println("petid in testGetPet " + this.petPayload.getId());
         Response response = PetEndpoints.readPet(this.petPayload.getId());
         response.then().log().all();
         response.statusCode();
         Assert.assertEquals(response.getStatusCode(), 200);
         try {
-            Thread.sleep(2000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -87,31 +83,33 @@ public class    PetTests {
     @Test(priority = 3)
     public void testUpdatePetById() {
         logger.info("**** update pet  *********");
+//        update data using payload
         try {
-            Thread.sleep(1000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        update data using payload
-//        petPayload.setCategory(category);
         petPayload.setName(faker.animal().name());
-//        petPayload.setPhotoUrls(List.of(faker.avatar().image()));
-//        petPayload.setTags((List<Pet.Tag>) tags);
         petPayload.setStatus(faker.options().option("available", "pending", "sold"));
-//        System.out.println("Id IN Update request" + this.petPayload.getId() + "animal" + this.petPayload.getName() + "statys" + this
-//                .petPayload.getStatus());
         Response response = PetEndpoints.updatePet(this.petPayload.getId(), petPayload);
         response.then().log().all();
+//        Integer petid = response.jsonPath().getInt("id");
+
         response.statusCode();
         Assert.assertEquals(response.getStatusCode(), 200);
-
+//        petPayload.setId(petid);
+        try {
+            Thread.sleep(5000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ///checkmng data after update
         Response responseAfterUpdate = PetEndpoints.readPet(this.petPayload.getId());
         response.then().log().all();
         response.statusCode();
         Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
         try {
-            Thread.sleep(2000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -121,18 +119,10 @@ public class    PetTests {
     @Test(priority = 4)
     public void testDeletePetById() {
         logger.info("***** delete pet*****");
-        try {
-            Thread.sleep(2000); // 2 seconds delay
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("id in delete "+this.petPayload.getId());
         Response response = PetEndpoints.deletePet(this.petPayload.getId());
         Assert.assertEquals(response.getStatusCode(), 200);
-        try {
-            Thread.sleep(2000); // 2 seconds delay
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         logger.info("***8 pet deleted*******");
     }
 }

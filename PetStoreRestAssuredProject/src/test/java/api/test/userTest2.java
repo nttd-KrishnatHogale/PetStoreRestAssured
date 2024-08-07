@@ -45,7 +45,7 @@ public class userTest2 {
         response.then().log().all();
         Assert.assertEquals(response.getStatusCode(),200);
         try {
-            Thread.sleep(2000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class userTest2 {
         logger.info("********************** Reading usr info **************");
     System.out.println(this.userPayload.getUsername());
     try {
-        Thread.sleep(2000); // 2 seconds delay
+        Thread.sleep(3000); // 2 seconds delay
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
@@ -88,7 +88,7 @@ public class userTest2 {
         response.then().log().all();
         Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
         try {
-            Thread.sleep(2000); // 2 seconds delay
+            Thread.sleep(5000); // 2 seconds delay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

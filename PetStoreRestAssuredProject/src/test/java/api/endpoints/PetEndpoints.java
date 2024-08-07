@@ -24,6 +24,7 @@ public class PetEndpoints {
                 .pathParam("id",id)
                 .when()
                 .get(Routes.get_url_pet);
+        System.out.println(Routes.get_url_pet.toString()+id);
         return response;
     }
     public  static Response updatePet(Integer id, Pet payload){
@@ -43,6 +44,7 @@ public class PetEndpoints {
                 .pathParam("id",id)
                 .when()
                 .delete(Routes.delete_url_pet);
+        System.out.println(Routes.delete_url_pet+id);
         return response;
 
     }
