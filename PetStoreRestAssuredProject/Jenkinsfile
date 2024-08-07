@@ -18,8 +18,9 @@ stages {
         stage('Build') {
             steps {
             bat 'cd'
-            bat 'cd PetStoreRestAssuredProject'
-            bat 'mvn clean test'
+            dir('PetStoreRestAssuredProject') {
+                                bat 'mvn clean test'
+                            }
             }
         }
 
