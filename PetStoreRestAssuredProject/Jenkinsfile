@@ -16,6 +16,7 @@ stages {
         }
 
         stage('Build') {
+            steps {
             bat 'cd'
                 sh "${MAVEN_HOME}/bin/mvn clean install"
             }
