@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        GITHUB_REPO = 'https://github.com/nttd-KrishnatHogale/PetStoreRestAssured.git'
+//         MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
+        ALLURE_RESULTS_DIR = 'target/allure-results'
+        ALLURE_REPORT_DIR = 'target/allure-report'
+        ALLURE_DOWNLOAD_DIR = 'allure-reports'
+    }
+stages {
+        stage('Checkout') {
+            steps {
+                git url: "${env.GITHUB_REPO}", branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn clean install"
+            }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn allure:report"
+            }
+        }
+stage('Archive Allure Report') {
+            steps {
+                script {
+                    // Create Allure reports directory if it doesn't exist
+                    sh "mkdir -p ${ALLURE_DOWNLOAD_DIR}"
+
+                    // Copy the latest generated Allure report to the download directory
+                    sh "cp -r ${ALLURE_REPORT_DIR}/* ${ALLURE_DOWNLOAD_DIR}/"
+
+                    // Archive the report
+                    archiveArtifacts artifacts: "${ALLURE_DOWNLOAD_DIR}/**", allowEmptyArchive: true
+                }
+            }
+        }
+    }
+
+//     post {
+//         always {
+//             cleanWs()
+//         }
+//     }
+}
