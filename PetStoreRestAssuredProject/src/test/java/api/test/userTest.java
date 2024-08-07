@@ -44,6 +44,11 @@ public class userTest {
         response.then().log().all();
 
         Assert.assertEquals(response.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("************* User is Created ***********************");
     }
 
@@ -53,6 +58,11 @@ public class userTest {
        Response response = UserEndpoints.readUser(this.userPayload.getUsername());
        response.then().log().all();
        Assert.assertEquals(response.getStatusCode(),200);
+    try {
+        Thread.sleep(2000); // 2 seconds delay
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
        logger.info("************** user info is displayed ******************");
     }
 
@@ -74,6 +84,11 @@ public class userTest {
         Response responseAfterUpdate = UserEndpoints.readUser(this.userPayload.getUsername());
         response.then().log().all();
         Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("**********user is updated ****************");
     }
 
@@ -82,6 +97,11 @@ public class userTest {
         logger.info("************deleteing User *****************");
        Response response = UserEndpoints.deleteUser(this.userPayload.getUsername());
        Assert.assertEquals(response.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
        logger.info("*********** user deleted ***************");
     }
 }

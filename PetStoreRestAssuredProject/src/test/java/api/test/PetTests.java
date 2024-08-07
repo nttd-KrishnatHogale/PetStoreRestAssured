@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +25,9 @@ public class    PetTests {
     public void setUpData() {
         faker = new Faker();
         petPayload = new Pet();
-
         Pet.Category category = new Pet.Category();
         category.setId(faker.number().numberBetween(1, 100));
         category.setName(faker.animal().name());
-
-
         List<Pet.Tag> tags = new ArrayList<>();
 //        for (int i = 0; i < 3; i++) {
         Pet.Tag tag = new Pet.Tag();
@@ -39,20 +35,17 @@ public class    PetTests {
         tag.setName(faker.lorem().word());
         tags.add(tag);
 //        }
-
         petPayload.setId(faker.idNumber().hashCode());
         petPayload.setCategory(category);
         petPayload.setName(faker.animal().name());
         petPayload.setPhotoUrls(List.of(faker.avatar().image()));
         petPayload.setTags(tags);
         petPayload.setStatus(faker.options().option("available", "pending", "sold"));
-
         logger = LogManager.getLogger(this.getClass());
     }
 
     @Test(priority = 1)
     public void testPostPet() {
-
         logger.info("********* Creating Pet***********");
         Response response = PetEndpoints.createPet(petPayload);
         response.then().log().all();
@@ -61,37 +54,52 @@ public class    PetTests {
         System.out.println("ID from psit request" + petid);
         petPayload.setId(petid);
         Assert.assertEquals(response.statusCode(), 200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("********pet created***********");
-
     }
 
     @Test(priority = 2)
-    public void testGetPetById() {
-        logger
-                .info("****GEt Pet*******");
+    public void testGetPetById() throws InterruptedException {
+        logger.info("****GEt Pet*******");
+        try {
+            Thread.sleep(1000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("petid in testGetPet" + this.petPayload.getId());
         Response response = PetEndpoints.readPet(this.petPayload.getId());
         response.then().log().all();
         response.statusCode();
         Assert.assertEquals(response.getStatusCode(), 200);
-        logger
-                .info("********** Get Pet Complted ****");
-
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        Thread.sleep(2000); // Delay for 2000 milliseconds (2 seconds)
+        logger.info("********** Get Pet Complted ****");
     }
 
     @Test(priority = 3)
     public void testUpdatePetById() {
         logger.info("**** update pet  *********");
+        try {
+            Thread.sleep(1000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 //        update data using payload
 //        petPayload.setCategory(category);
         petPayload.setName(faker.animal().name());
 //        petPayload.setPhotoUrls(List.of(faker.avatar().image()));
 //        petPayload.setTags((List<Pet.Tag>) tags);
         petPayload.setStatus(faker.options().option("available", "pending", "sold"));
-
-
-        System.out.println("Id IN Update request" + this.petPayload.getId() + "animal" + this.petPayload.getName() + "statys" + this
-                .petPayload.getStatus());
+//        System.out.println("Id IN Update request" + this.petPayload.getId() + "animal" + this.petPayload.getName() + "statys" + this
+//                .petPayload.getStatus());
         Response response = PetEndpoints.updatePet(this.petPayload.getId(), petPayload);
         response.then().log().all();
         response.statusCode();
@@ -102,18 +110,29 @@ public class    PetTests {
         response.then().log().all();
         response.statusCode();
         Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
-        logger
-                .info("******** Update Pet complete*******");
-
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("******** Update Pet complete*******");
     }
 
     @Test(priority = 4)
     public void testDeletePetById() {
         logger.info("***** delete pet*****");
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Response response = PetEndpoints.deletePet(this.petPayload.getId());
         Assert.assertEquals(response.getStatusCode(), 200);
-        logger
-
-                .info("***8 pet deleted*******");
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("***8 pet deleted*******");
     }
 }

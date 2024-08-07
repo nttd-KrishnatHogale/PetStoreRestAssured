@@ -43,17 +43,32 @@ public class userTest2 {
         logger.info("******************crarting user*******************");
         Response response= UserEndpoints2.createUser(userPayload);
         response.then().log().all();
-
         Assert.assertEquals(response.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("************* User is Created ***********************");
     }
 
 @Test(priority = 2)
     public void testGetUserByName(){
         logger.info("********************** Reading usr info **************");
+    System.out.println(this.userPayload.getUsername());
+    try {
+        Thread.sleep(2000); // 2 seconds delay
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
        Response response = UserEndpoints2.readUser(this.userPayload.getUsername());
        response.then().log().all();
        Assert.assertEquals(response.getStatusCode(),200);
+    try {
+        Thread.sleep(2000); // 2 seconds delay
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
        logger.info("************** user info is displayed ******************");
     }
 
@@ -65,16 +80,18 @@ public class userTest2 {
         userPayload.setFirstName(faker.name().firstName());
         userPayload.setLastName(faker.name().lastName());
         userPayload.setEmail(faker.internet().safeEmailAddress());
-
         Response response=UserEndpoints2.updateUser(this.userPayload.getUsername(),userPayload);
         response.then().log().body().statusCode(200);
-
         Assert.assertEquals(response.getStatusCode(),200);
-
         //checking data after update
         Response responseAfterUpdate = UserEndpoints2.readUser(this.userPayload.getUsername());
         response.then().log().all();
         Assert.assertEquals(responseAfterUpdate.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("**********user is updated ****************");
     }
 
@@ -83,6 +100,11 @@ public class userTest2 {
         logger.info("************deleteing User *****************");
        Response response = UserEndpoints2.deleteUser(this.userPayload.getUsername());
        Assert.assertEquals(response.getStatusCode(),200);
+        try {
+            Thread.sleep(2000); // 2 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
        logger.info("*********** user deleted ***************");
     }
 }
