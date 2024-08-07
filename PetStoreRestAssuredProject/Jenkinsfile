@@ -19,7 +19,7 @@ stages {
             steps {
             bat 'cd'
             bat 'cd PetStoreRestAssuredProject'
-            bat 'clean test'
+            bat 'mvn clean test'
             }
         }
 
