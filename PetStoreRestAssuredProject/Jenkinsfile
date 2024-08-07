@@ -26,12 +26,13 @@ stages {
             }
         }
 
-        stage('Archive Reports') {
+         stage('Archive Reports') {
                     steps {
-                        // Archive the contents of the reports directory
-                        archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
+                        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                            // Archive the contents of the reports directory
+                            archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
+                        }
                     }
-                }
                 }
 
 }
