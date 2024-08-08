@@ -104,6 +104,14 @@
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.awaitility/awaitility -->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.2.1</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>

@@ -3,8 +3,10 @@ package api.endpoints;
 import api.payload.User;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.awaitility.Awaitility;
 
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 //import static io.restassured.RestAssured.when;
@@ -28,13 +30,25 @@ public class UserEndpoints2 {
     }
 
     public  static Response readUser(String  username){
+        final Response[] responseHolder = new Response[1];
+
+        Awaitility.await()
+                .atMost(10, TimeUnit.SECONDS)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .until(() ->
+        {
         String get_url = getURL().getString("get_url");
         Response response = given()
                 .pathParam("username",username)
                 .when()
                 .get(get_url);
-        System.out.println(get_url+username);
-        return response;
+            responseHolder[0] = response;
+
+            System.out.println(get_url+username);
+            return response.getStatusCode() == 200;
+        });
+        return responseHolder[0];
+
     }
 
     public  static Response updateUser(String  username, User payload){

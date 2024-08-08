@@ -29,12 +29,12 @@
                 </methods>
             </class>
 
-<!--            <class name="api.test.PetTests">-->
-<!--                <methods>-->
-<!--                    <include name="testPostPet"/>-->
-<!--                    <include name="testGetPetById"/>-->
-<!--                    <include name="testUpdatePetById"/>-->
-<!--                    <include name="testDeletePetById"/>-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="api.test.PetTests">
+                <methods>
+                    <include name="testPostPet"/>
+                    <include name="testGetPetById"/>
+                    <include name="testUpdatePetById"/>
+                    <include name="testDeletePetById"/>
+                </methods>
+            </class>
         </classes></test></suite>
