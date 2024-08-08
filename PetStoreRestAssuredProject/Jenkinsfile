@@ -20,18 +20,15 @@ pipeline {
                 }
             }
         }
-
-        stage('Verify Reports Directory') {
-            steps {
-                dir("${env.REPORTS_DIR}") {
-                    echo "Currently working directory: %cd%"
-                }
-            }
-        }
     }
 
     post {
         always {
+        script {
+                        dir("${env.REPORTS_DIR}") {
+                            bat 'echo "Currently working directory: %cd%"'
+                        }
+                    }
             archiveArtifacts artifacts: "${env.REPORTS_DIR}/**", allowEmptyArchive: true
         }
     }
