@@ -3,12 +3,7 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/nttd-KrishnatHogale/PetStoreRestAssured.git'
-                REPORTS_DIR = 'PetStoreRestAssuredProject/reports' // Path to your reports directory
-
-//         MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
-//         ALLURE_RESULTS_DIR = 'target/allure-results'
-//         ALLURE_REPORT_DIR = 'target/allure-report'
-//         ALLURE_DOWNLOAD_DIR = 'allure-reports'
+                REPORTS_DIR = 'PetStoreRestAssuredProject/reports' //
     }
 stages {
         stage('Checkout') {
