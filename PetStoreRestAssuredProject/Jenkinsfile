@@ -22,7 +22,7 @@ stages {
         }
 
          stage('Archive Reports') {
-         dir('PetStoreRestAssuredProject') {
+         dir('PetStoreRestAssuredProject/reports') {
                                          bat 'cd'
                                      }
                      }
