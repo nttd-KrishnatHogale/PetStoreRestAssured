@@ -19,13 +19,18 @@ stages {
                                 bat 'mvn clean test'
                             }
             }
+            dir('PetStoreRestAssuredProject/reports') {
+                                                     bat 'cd'
+                                                 }
+                                 }
+
         }
 
-         stage('Archive Reports') {
-         dir('PetStoreRestAssuredProject/reports') {
-                                         bat 'cd'
-                                     }
-                     }
+//          stage('Archive Reports') {
+//          dir('PetStoreRestAssuredProject/reports') {
+//                                          bat 'cd'
+//                                      }
+//                      }
 
 //                     steps {
 //                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
