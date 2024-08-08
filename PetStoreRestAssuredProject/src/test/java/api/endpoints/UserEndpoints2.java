@@ -66,6 +66,8 @@ public class UserEndpoints2 {
                 .pathParam("username",username)
                 .when()
                 .put(update_url);
+                    responseHolder[0] = response;
+
                     return response.getStatusCode() == 200;
                 });
         return responseHolder[0];
