@@ -20,12 +20,12 @@ pipeline {
                     bat 'mvn clean test'
                 }
             }
-            steps{
+//             steps{
             dir('PetStoreRestAssuredProject/reports') {
                             bat 'echo Currently working directory: %cd%'
                         }
 
-            }
+//             }
         }
     }
 
