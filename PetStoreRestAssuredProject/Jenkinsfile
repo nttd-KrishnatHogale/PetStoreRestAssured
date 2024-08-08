@@ -20,7 +20,7 @@ stages {
                             }
             }
             dir('PetStoreRestAssuredProject/reports') {
-                                                     bat 'cd'
+                                                     bat 'echo Current working directory: %cd%'
                                                  }
                                  }
 
