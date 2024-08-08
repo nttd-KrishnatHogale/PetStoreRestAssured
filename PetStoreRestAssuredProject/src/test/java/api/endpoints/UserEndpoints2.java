@@ -63,12 +63,22 @@ public class UserEndpoints2 {
         return response;
     }
 
-    public  static Response deleteUser(String  username){
-        String delete_url = getURL().getString("delete_url");
-        Response response = given()
-                .pathParam("username",username)
-                .when()
-                .delete(delete_url);
-        return response;
+    public  static Response deleteUser(String  username) {
+        final Response[] responseHolder = new Response[1];
+        Awaitility.await()
+                .atMost(10, TimeUnit.SECONDS)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .until(() ->
+                {
+                    String delete_url = getURL().getString("delete_url");
+                    Response response = given()
+                            .pathParam("username", username)
+                            .when()
+                            .delete(delete_url);
+                    responseHolder[0] = response;
+
+                    return response.getStatusCode() == 200;
+                });
+        return responseHolder[0];
     }
 }
