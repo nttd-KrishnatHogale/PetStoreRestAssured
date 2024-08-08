@@ -19,26 +19,15 @@ stages {
                                 bat 'mvn clean test'
                             }
             }
-            dir('PetStoreRestAssuredProject/reports') {
-                                                     bat 'echo Current working directory: %cd%'
-                                                 }
-                                 }
-
         }
 
-//          stage('Archive Reports') {
-//          dir('PetStoreRestAssuredProject/reports') {
-//                                          bat 'cd'
-//                                      }
-//                      }
 
-//                     steps {
-//                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-//                             // Archive the contents of the reports directory
-//                             archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
-//                         }
-//                     }
-                }
-         }
+         post {
+                 always {
+                     dir('PetStoreRestAssuredProject/reports') {
+                         bat 'echo Currently working directory: %cd%'
+                     }
+                 }
+             }
 
 }
