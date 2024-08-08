@@ -52,6 +52,12 @@ public class UserEndpoints2 {
     }
 
     public  static Response updateUser(String  username, User payload){
+        final Response[] responseHolder = new Response[1];
+        Awaitility.await()
+                .atMost(10, TimeUnit.SECONDS)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .until(() ->
+                {
         String update_url = getURL().getString("update_url");
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -60,7 +66,10 @@ public class UserEndpoints2 {
                 .pathParam("username",username)
                 .when()
                 .put(update_url);
-        return response;
+                    return response.getStatusCode() == 200;
+                });
+        return responseHolder[0];
+
     }
 
     public  static Response deleteUser(String  username) {

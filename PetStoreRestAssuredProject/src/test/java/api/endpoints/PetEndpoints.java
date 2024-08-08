@@ -46,6 +46,11 @@ public class PetEndpoints {
     }
 
     public  static Response updatePet(Integer id, Pet payload){
+        final Response[] responseHolder = new Response[1];
+        Awaitility.await()
+                .atMost(10, TimeUnit.SECONDS) // Maximum wait time
+                .pollInterval(1, TimeUnit.SECONDS) // Poll interval
+                .until(() -> {
         Response response = given()
                 .contentType("application/x-www-form-urlencoded")
                 .accept(ContentType.JSON)
@@ -55,17 +60,31 @@ public class PetEndpoints {
                 .pathParam("id",id)
                 .when()
                 .post(Routes.update_url_pet);
-        return response;
+                    responseHolder[0] = response;
+                    return response.getStatusCode() == 200;
+                });
+
+        // Return the final response after waiting
+        return responseHolder[0];
     }
     public  static Response deletePet(Integer id){
+        final Response[] responseHolder = new Response[1];
+        Awaitility.await()
+                .atMost(10, TimeUnit.SECONDS) // Maximum wait time
+                .pollInterval(1, TimeUnit.SECONDS) // Poll interval
+                .until(() -> {
         Response response = given()
                 .pathParam("id",id)
                 .when()
                 .delete(Routes.delete_url_pet);
         System.out.println(Routes.delete_url_pet+id);
-        return response;
+        responseHolder[0] = response;
+        return response.getStatusCode() == 200;
+    });
 
-    }
+    // Return the final response after waiting
+        return responseHolder[0];
+}
 
 
 }
