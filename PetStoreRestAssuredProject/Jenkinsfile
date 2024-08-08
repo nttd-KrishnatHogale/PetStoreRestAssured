@@ -22,13 +22,18 @@ stages {
         }
 
          stage('Archive Reports') {
-                    steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                            // Archive the contents of the reports directory
-                            archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
-                        }
-                    }
+         dir('PetStoreRestAssuredProject') {
+                                         bat 'cd'
+                                     }
+                     }
+
+//                     steps {
+//                         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+//                             // Archive the contents of the reports directory
+//                             archiveArtifacts artifacts: "${REPORTS_DIR}/**", allowEmptyArchive: true
+//                         }
+//                     }
                 }
-                }
+         }
 
 }
