@@ -3,9 +3,10 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/nttd-KrishnatHogale/PetStoreRestAssured.git'
-                REPORTS_DIR = 'PetStoreRestAssuredProject/reports' //
+        REPORTS_DIR = 'PetStoreRestAssuredProject/reports'
     }
-stages {
+
+    stages {
         stage('Checkout') {
             steps {
                 git url: "${env.GITHUB_REPO}", branch: 'main'
@@ -14,20 +15,19 @@ stages {
 
         stage('Build') {
             steps {
-            bat 'cd'
-            dir('PetStoreRestAssuredProject') {
-                                bat 'mvn clean test'
-                            }
+                bat 'cd'
+                dir('PetStoreRestAssuredProject') {
+                    bat 'mvn clean test'
+                }
             }
         }
+    }
 
-
-         post {
-                 always {
-                     dir('PetStoreRestAssuredProject/reports') {
-                         bat 'echo Currently working directory: %cd%'
-                     }
-                 }
-             }
-
+    post {
+        always {
+            dir('PetStoreRestAssuredProject/reports') {
+                bat 'echo Currently working directory: %cd%'
+            }
+        }
+    }
 }
