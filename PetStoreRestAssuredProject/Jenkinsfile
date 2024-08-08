@@ -15,7 +15,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'cd'
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
                 }
@@ -24,7 +23,7 @@ pipeline {
 
         stage('Verify Reports Directory') {
             steps {
-                dir('PetStoreRestAssuredProject/reports') {
+                dir("${env.REPORTS_DIR}") {
                     bat 'echo Currently working directory: %cd%'
                 }
             }
@@ -33,9 +32,7 @@ pipeline {
 
     post {
         always {
-            dir('PetStoreRestAssuredProject/reports') {
-                bat 'echo Currently working directory: %cd%'
-            }
+            archiveArtifacts artifacts: "${env.REPORTS_DIR}/**", allowEmptyArchive: true
         }
     }
 }
