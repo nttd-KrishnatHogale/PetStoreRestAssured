@@ -19,6 +19,7 @@ pipeline {
                     bat 'mvn clean test'
                 }
             }
+
 //             post {
 //             always {
 //             bat 'echo hello'}

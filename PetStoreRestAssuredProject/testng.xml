@@ -23,9 +23,9 @@
             <class name="api.test.userTest2">
                 <methods>
                     <include name="testPostUser"/>
-<!--                    <include name="testGetUserByName"/>-->
-<!--                    <include name="testUpdateUserByName"/>-->
-<!--                    <include name="testDeleteUserByName"/>-->
+                    <include name="testGetUserByName"/>
+                    <include name="testUpdateUserByName"/>
+                    <include name="testDeleteUserByName"/>
                 </methods>
             </class>
 
