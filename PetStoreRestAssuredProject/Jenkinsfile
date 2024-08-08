@@ -24,7 +24,7 @@ pipeline {
         stage('Verify Reports Directory') {
             steps {
                 dir("${env.REPORTS_DIR}") {
-                    bat 'echo Currently working directory: %cd%'
+                    echo "Currently working directory: %cd%"
                 }
             }
         }
