@@ -20,20 +20,22 @@ pipeline {
                     bat 'mvn clean test'
                 }
             }
-//             steps{
-            dir('PetStoreRestAssuredProject/reports') {
-                            bat 'echo Currently working directory: %cd%'
-                        }
+        }
 
-//             }
+        stage('Verify Reports Directory') {
+            steps {
+                dir('PetStoreRestAssuredProject/reports') {
+                    bat 'echo Currently working directory: %cd%'
+                }
+            }
         }
     }
 
-//     post {
-//         always {
-//             dir('PetStoreRestAssuredProject/reports') {
-//                 bat 'echo Currently working directory: %cd%'
-//             }
-//         }
-//     }
+    post {
+        always {
+            dir('PetStoreRestAssuredProject/reports') {
+                bat 'echo Currently working directory: %cd%'
+            }
+        }
+    }
 }
