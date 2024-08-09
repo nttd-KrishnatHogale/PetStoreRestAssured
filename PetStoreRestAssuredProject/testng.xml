@@ -37,4 +37,12 @@
                     <include name="testDeletePetById"/>
                 </methods>
             </class>
+            <class name="api.test.StoreTests">
+                <methods>
+                    <include name="testPostOrder"/>
+                    <include name="testGetOrderById"/>
+                    <include name="testGetInventory"/>
+                    <include name="testDeletePetById"/>
+                </methods>
+            </class>
         </classes></test></suite>
