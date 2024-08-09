@@ -536,3 +536,20 @@
 12:45:53.084 [main] INFO  api.test.PetTests - ******** Update Pet complete*******
 12:45:53.086 [main] INFO  api.test.PetTests - ***** delete pet*****
 12:45:55.028 [main] INFO  api.test.PetTests - ***8 pet deleted*******
+12:54:18.224 [main] DEBUG api.test.userTest2 - debugging
+12:54:18.238 [main] INFO  api.test.userTest2 - ******************crarting user*******************
+12:54:26.227 [main] INFO  api.test.userTest2 - ************* User is Created ***********************
+12:54:26.240 [main] INFO  api.test.userTest2 - ********************** Reading usr info **************
+12:54:33.257 [main] INFO  api.test.userTest2 - ************** user info is displayed ******************
+12:54:33.259 [main] INFO  api.test.userTest2 - *****************updatin user****************
+12:54:42.196 [main] INFO  api.test.userTest2 - **********user is updated ****************
+12:54:42.198 [main] INFO  api.test.userTest2 - ************deleteing User *****************
+12:54:46.169 [main] INFO  api.test.userTest2 - *********** user deleted ***************
+12:54:46.205 [main] INFO  api.test.PetTests - ********* Creating Pet***********
+12:54:52.868 [main] INFO  api.test.PetTests - ********pet created***********
+12:54:52.869 [main] INFO  api.test.PetTests - ****GEt Pet*******
+12:54:59.867 [main] INFO  api.test.PetTests - ********** Get Pet Complted ****
+12:54:59.869 [main] INFO  api.test.PetTests - **** update pet  *********
+12:55:18.796 [main] INFO  api.test.PetTests - ******** Update Pet complete*******
+12:55:18.797 [main] INFO  api.test.PetTests - ***** delete pet*****
+12:55:20.759 [main] INFO  api.test.PetTests - ***8 pet deleted*******
