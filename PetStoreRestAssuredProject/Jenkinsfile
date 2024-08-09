@@ -17,34 +17,6 @@ pipeline {
             steps {
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
-                                    echo 'Ready for Post section'
-
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            script {
-                // Ensure working directory
-                dir('PetStoreRestAssuredProject/reports') {
-                    // Create the latest result link
-                    bat '''
-                    for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do (
-                        set "latest=%%~fi"
-                        goto :done
-                    )
-                    :done
-                    echo ^<a href="file://%latest%"^>Latest result_%BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
-                    start latest_result_%BUILD_NUMBER%.html
-                    '''
-
-                    // Serve Allure report
-                    bat 'allure serve allure-results'
-
-                    // Kill Java process if needed
-                    bat 'taskkill /f /im java.exe /t'
                 }
             }
         }
