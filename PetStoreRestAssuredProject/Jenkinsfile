@@ -17,6 +17,8 @@ pipeline {
             steps {
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
+                                    echo 'Ready for Post section'
+
                 }
             }
         }
