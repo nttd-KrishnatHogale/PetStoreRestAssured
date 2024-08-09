@@ -17,6 +17,7 @@ pipeline {
             steps {
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
+                    bat 'allure serve allure-results'
                 }
             }
 
