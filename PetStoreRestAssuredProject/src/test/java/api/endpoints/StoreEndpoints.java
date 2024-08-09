@@ -1,6 +1,5 @@
 package api.endpoints;
 
-import api.payload.Pet;
 import api.payload.Store;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -28,12 +27,6 @@ public class StoreEndpoints {
     }
     public  static Response getInventory(){
         Response response = given()
-//                .contentType("application/x-www-form-urlencoded")
-//                .accept(ContentType.JSON)
-////                .body(payload)
-//                .formParam("name",payload.getName())
-//                .formParam("status",payload.getStatus())
-//                .pathParam("id",id)
                 .when()
                 .get(Routes.get_url_store_inventory);
         return response;
