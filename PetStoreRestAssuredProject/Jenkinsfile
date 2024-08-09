@@ -19,50 +19,32 @@ pipeline {
                     bat 'mvn clean test'
                 }
             }
-            steps {
-//                     bat 'allure serve allure-results'
-
-
-             try {
-                                 bat 'allure serve allure-results'
-
-//                                     bat 'your-batch-script.bat'
-                                } catch (Exception e) {
-                                    // Handle the error or log it
-                                    echo 'An error occurred, but marking build as SUCCESS.'
-                                } finally {
-                                    // Ensure the build is marked as SUCCESS
-                                    currentBuild.result = 'SUCCESS'
-                                }
-
-}
-//             post {
-//             always {
-//             bat 'echo hello'}
-//             }
         }
     }
 
-//     post {
-//         always {
-//         script {
-//                         dir("${env.REPORTS_DIR}") {
-//                             bat 'echo "Currently working directory: %cd%"'
-//                         }
-//                     }
-//             archiveArtifacts artifacts: "${env.REPORTS_DIR}/**", allowEmptyArchive: true
-//         }
-//     }
+    post {
+        always {
+            script {
+                // Ensure working directory
+                dir('PetStoreRestAssuredProject/reports') {
+                    // Create the latest result link
+                    bat '''
+                    for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do (
+                        set "latest=%%~fi"
+                        goto :done
+                    )
+                    :done
+                    echo ^<a href="file://%latest%"^>Latest result_%BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
+                    start latest_result_%BUILD_NUMBER%.html
+                    '''
 
-// post {
-//         always {
-//             script {
-//                 // Print a custom message
-//                 bat 'echo steps completed'
-//
-//                 // Archive the reports
-// //                 archiveArtifacts artifacts: "${env.REPORTS_DIR}/**", allowEmptyArchive: true
-//             }
-//         }
-//     }
+                    // Serve Allure report
+                    bat 'allure serve allure-results'
+
+                    // Kill Java process if needed
+                    bat 'taskkill /f /im java.exe /t'
+                }
+            }
+        }
+    }
 }

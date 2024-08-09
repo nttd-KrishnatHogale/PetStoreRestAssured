@@ -1,6 +1,7 @@
 package api.endpoints;
 
 import api.payload.User;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.awaitility.Awaitility;
@@ -21,6 +22,7 @@ public class UserEndpoints2 {
     public  static Response createUser(User payload){
         String post_url = getURL().getString("post_url");
         Response response = given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body(payload)
@@ -39,6 +41,7 @@ public class UserEndpoints2 {
         {
         String get_url = getURL().getString("get_url");
         Response response = given()
+                .filter(new AllureRestAssured())
                 .pathParam("username",username)
                 .when()
                 .get(get_url);
@@ -60,6 +63,7 @@ public class UserEndpoints2 {
                 {
         String update_url = getURL().getString("update_url");
         Response response = given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body(payload)
@@ -83,6 +87,7 @@ public class UserEndpoints2 {
                 {
                     String delete_url = getURL().getString("delete_url");
                     Response response = given()
+                            .filter(new AllureRestAssured())
                             .pathParam("username", username)
                             .when()
                             .delete(delete_url);
