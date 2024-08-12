@@ -24,6 +24,8 @@ pipeline {
         stage('Find Latest Report') {
             steps {
                 script {
+                dir('PetStoreRestAssuredProject/reports')
+                {
                     // Find the latest report file
                     def latestFile = bat(script: """
                         for /f "delims=" %%i in ('dir /b /a-d /o-d ${env.REPORTS_DIR}\\Test-Report-*.html') do @echo %%i
@@ -38,6 +40,7 @@ pipeline {
                         currentBuild.description = """<a href="${env.BUILD_URL}artifact/${artifactPath}">Latest Report: ${reportName}</a>"""
                     } else {
                         echo "No report files found."
+                    }
                     }
                 }
             }
