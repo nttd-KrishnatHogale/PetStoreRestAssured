@@ -18,11 +18,12 @@ pipeline {
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
                 }
-            }
+
 
             dir('PetStoreRestAssuredProject/reports'){
             bat 'cd'
 
+            }
             }
         }
     }
