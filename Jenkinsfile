@@ -34,7 +34,7 @@ pipeline {
                         echo "Latest file: ${latestFilePath}"
 
                         def reportName = latestFile.tokenize('\\').last()
-                        def artifactPath = latestFile.replaceFirst(/^[A-Z]:\\/, '') // Adjust if needed
+                        def artifactPath = latestFile.replaceFirst("/^[A-Z]:\\/", '') // Adjust if needed
                         currentBuild.description = """<a href="${env.BUILD_URL}artifact/${artifactPath}">Latest Report: ${reportName}</a>"""
                     } else {
                         echo "No report files found."
