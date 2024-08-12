@@ -18,26 +18,22 @@ pipeline {
                 dir('PetStoreRestAssuredProject') {
                     bat 'mvn clean test'
                 }
-            dir('PetStoreRestAssuredProject/reports'){
-            bat 'cd'
-            }
-            }
-        }
-    }
+                }
+                }
+            stage('Find Latest Report') {
+                        steps {
+                            script {
+                                def latestFile = bat(script: "for /f \"delims=\" %i in ('dir /b /a-d /o-d ${env.REPORTS_DIR}\\Test-Report-*.html') do @echo %i", returnStdout: true).trim()
+                                def latestFilePath = "${env.REPORTS_DIR}\\${latestFile}"
+                                echo "Latest file: ${latestFilePath}"
 
-    post {
-            always {
-                script {
-                    // Find the latest report (Windows PowerShell command)
-                    def latestReport = bat(script: 'powershell -command "Get-ChildItem reports\\*.html | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }"', returnStdout: true).trim()
-
-                    // Create a link to the latest report
-                    if (latestReport) {
-                        def reportName = latestReport.tokenize('\\').last()
-                        def artifactPath = latestReport.replaceFirst(/^[A-Z]:\\/, '') // Remove drive letter
-                        currentBuild.description = """<a href="${env.BUILD_URL}artifact/${artifactPath}">Latest Report: ${reportName}</a>"""
+                                if (latestFile) {
+                                    def reportName = latestFile.tokenize('\\').last()
+                                    def artifactPath = latestFile.replaceFirst(/^[A-Z]:\\/, '') // Adjust if needed
+                                    currentBuild.description = """<a href="${env.BUILD_URL}artifact/${artifactPath}">Latest Report: ${reportName}</a>"""
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        }
 }
