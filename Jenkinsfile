@@ -30,14 +30,15 @@ pipeline {
 
 
                     // Navigate to the reports directory
-                    bat "cd /d ${reportsDir}"
+                    bat "cd /d ${reportsDir} && dir"
 
                     // Find the latest report
                     def latestReportFile = bat(script: '''
                         @echo off
+                        setlocal enabledelayedexpansion
                         for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do set "latest=%%~fi" & goto :done
                         :done
-                        echo %latest%
+                        echo !latest!
                         ''', returnStdout: true).trim()
                          // Check if we have found a report
                                         if (!latestReportFile) {
