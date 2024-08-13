@@ -34,9 +34,11 @@ pipeline {
                             script: '''
                             for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latest =  %%~fa" @echo %%a & goto :done
                             :done
-                            ''', returnStdout: true).trim()
+                            ''',
                             echo ^<a href="file://%latest%"^>Latest result_%BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
-                            start latest_result_%BUILD_NUMBER%.html
+                                                        start latest_result_%BUILD_NUMBER%.html
+                                                        returnStdout: true).trim()
+
 
                         // Print the contents of the directory for debugging
                         bat "dir /b"
