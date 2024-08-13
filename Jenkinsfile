@@ -36,15 +36,15 @@ pipeline {
                         // Find the latest report file
                         latestFile = bat(
                             script: '''
-                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latest=%%a" & goto :done
+                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latestfilename=%%a" & goto :done
                             :done
-                            echo %latest%
+                            echo %latestfilename%
                             ''',
                             returnStdout: true
                         ).trim()
 
                         // Print the latest file for debugging
-                        echo "Latest File: ${latest}"
+                        echo "Latest File: ${latestfilename}"
 
                         if (latestFile) {
                             // Archive the latest report file
