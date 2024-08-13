@@ -20,18 +20,28 @@ pipeline {
                 }
             }
         }
+        }
 
-        stage('Find Latest Report') {
-            steps {
-                script {
-                dir('PetStoreRestAssuredProject/reports')
-                {
-                def latestFile = bat(
-                script: '''
-                for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
-                :done
-                ''', returnStdout: true).trim()
-                echo "The latest generated file is: ${latestFile}"
+        post {
+                always {
+                    stage('Find Latest Report') {
+                        steps {
+                            script {
+                                dir('PetStoreRestAssuredProject/reports') {
+                                    def latestFile = bat(
+                                        script: '''
+                                        for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
+                                        :done
+                                        ''', returnStdout: true).trim()
+                                    echo "The latest generated file is: ${latestFile}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 //                     // Find the latest report file
 //                     def latestFile = bat(script: """
 //                         for /f "delims=" %%i in ('dir /b /a-d /o-d ${env.REPORTS_DIR}\\Test-Report-*.html') do @echo %%i
@@ -47,9 +57,3 @@ pipeline {
 //                     } else {
 //                         echo "No report files found."
 //                     }
-                    }
-                }
-            }
-        }
-    }
-}
