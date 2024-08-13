@@ -26,10 +26,11 @@ pipeline {
             always {
                 script {
                     // Define the path to the reports directory
-                    def reportsDir = 'PetStoreRestAssuredProject/reports'
+                    def reportsDir = 'C:\\Users\\Anuj\\.jenkins\\workspace\\jenknisfilecheck\\PetStoreRestAssuredProject\\reports'
+
 
                     // Navigate to the reports directory
-                    bat "cd ${reportsDir}"
+                    bat "cd /d ${reportsDir}"
 
                     // Find the latest report
                     def latestReportFile = bat(script: '''
@@ -43,6 +44,10 @@ pipeline {
                         :done
                         echo !latest!
                         ''', returnStdout: true).trim()
+                         // Check if we have found a report
+                                        if (!latestReportFile) {
+                                            error "No report files found."
+                                        }
 
                     // Define the build number variable if not already set
                     def buildNumber = env.BUILD_NUMBER ?: 'unknown'
