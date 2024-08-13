@@ -25,21 +25,26 @@ pipeline {
     post {
         always {
             script {
+            def latestFile
             dir('PetStoreRestAssuredProject/reports'){
-                def reportsDir = 'PetStoreRestAssuredProject/reports'
-                def latestFile = bat(
+//                 def reportsDir = 'PetStoreRestAssuredProject/reports'
+                 latestFile = bat(
                     script: '''
                     for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c "%s"') do @echo %%a & goto :done
                     :done
-                    '''.format(reportsDir), returnStdout: true).trim()
-
-                // Archive the latest file
-                archiveArtifacts artifacts: "${reportsDir}/${latestFile}", allowEmptyArchive: true
+                    ''', returnStdout: true).trim()
+                    }
+                    if (latestFile){
+                 // Archive the latest file
+                 archiveArtifacts artifacts: "${env.REPORTS_DIR}/${latestFile}", allowEmptyArchive: true
 
                 // Output the clickable link
                 def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
                 echo "The latest generated file can be found at: ${baseUrl}"
                 }
+                else{
+                echo "No files in reports directory"}
+
             }
         }
     }
