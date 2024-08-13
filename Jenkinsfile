@@ -24,21 +24,24 @@ pipeline {
 
     post {
         always {
-            // No 'stage' directive here; use steps directly
             script {
-                dir('PetStoreRestAssuredProject/reports') {
-                    def latestFile = bat(
-                        script: '''
-                        for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
-                        :done
-                        ''', returnStdout: true).trim()
-                    echo "The latest generated file is: ${latestFile}"
-                }
+                def reportsDir = 'PetStoreRestAssuredProject/reports'
+                def latestFile = bat(
+                    script: '''
+                    for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c "%s"') do @echo %%a & goto :done
+                    :done
+                    '''.format(reportsDir), returnStdout: true).trim()
+
+                // Archive the latest file
+                archiveArtifacts artifacts: "${reportsDir}/${latestFile}", allowEmptyArchive: true
+
+                // Output the clickable link
+                def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
+                echo "The latest generated file can be found at: ${baseUrl}"
             }
         }
     }
 }
-
 
 
 //                     // Find the latest report file
