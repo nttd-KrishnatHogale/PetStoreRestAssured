@@ -28,16 +28,27 @@ pipeline {
                 try {
                     def reportsDir = 'PetStoreRestAssuredProject/reports'
                     def latestFile
+                    def latestFilePath
 
                     dir(reportsDir) {
                         latestFile = bat(
                             script: '''
-                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latest =  %%~fa" @echo %%a & goto :done
+                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latest =%%a" & goto :done
                             :done
-                            ''',
-                            echo ^<a href="file://%latest%"^>Latest result_%BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
-                                                        start latest_result_%BUILD_NUMBER%.html
-                                                        returnStdout: true).trim()
+                            echo %latest%
+                            ''',returnStdout: true).trim()
+                            // Create HTML file with clickable link
+                                                    def htmlContent = """<html>
+                            <head><title>Latest Report</title></head>
+                            <body>
+                            <p><a href="file:///${env.WORKSPACE}/${reportsDir}/${latestFile}">Latest result_${env.BUILD_NUMBER}</a></p>
+                            </body>
+                            </html>"""
+                            // Write HTML content to file
+                                                    writeFile file: "latest_result_${env.BUILD_NUMBER}.html", text: htmlContent
+
+// Archive the HTML file
+                        archiveArtifacts artifacts: "latest_result_${env.BUILD_NUMBER}.html", allowEmptyArchive: true
 
 
                         // Print the contents of the directory for debugging
@@ -50,7 +61,7 @@ pipeline {
 
                         // Output the clickable link
 //                         def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
-                     def baseUrl = "${latestFile}"
+                        def baseUrl = "${env.BUILD_URL}artifact/${reportsDir}/${latestFile}"
 
                         echo "The latest generated file can be found at: ${baseUrl}"
 //                         echo "${baseUrl}/${latestFile}"
