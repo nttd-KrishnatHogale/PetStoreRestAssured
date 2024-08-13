@@ -28,7 +28,7 @@ pipeline {
                     // Define the path to the reports directory
                     def reportsDir = 'C:\\Users\\Anuj\\.jenkins\\workspace\\jenknisfilecheck\\PetStoreRestAssuredProject\\reports'
 
-
+                    def buildNumber = env.BUILD_NUMBER ?: 'unknown'
                     // Navigate to the reports directory
                     bat "cd /d ${reportsDir} && dir"
 
@@ -39,7 +39,7 @@ pipeline {
                              goto :done
                          )
                          :done
-                         echo ^<a href="file://%latest%"^>Latest result_%env.BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
+                         echo ^<a href="file://%latest%"^>Latest result_${buildNumber}^</a^> >> latest_result_%BUILD_NUMBER%.html
                          start latest_result_%BUILD_NUMBER%.html"""
 
 //                     // Find the latest report
