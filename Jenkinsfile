@@ -44,7 +44,7 @@ pipeline {
                         ).trim()
 
                         // Print the latest file for debugging
-                        echo "Latest File: ${latestFile}"
+                        echo "Latest File: ${latest}"
 
                         if (latestFile) {
                             // Archive the latest report file
