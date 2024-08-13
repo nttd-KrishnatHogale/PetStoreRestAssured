@@ -61,7 +61,7 @@ pipeline {
 
                         // Output the clickable link
 //                         def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
-                        def baseUrl = "${env.BUILD_URL}artifact/${reportsDir}/${latestFile}"
+                        def baseUrl = "${env.BUILD_URL}artifact/${reportsDir}/${latest}"
 
                         echo "The latest generated file can be found at: ${baseUrl}"
 //                         echo "${baseUrl}/${latestFile}"
