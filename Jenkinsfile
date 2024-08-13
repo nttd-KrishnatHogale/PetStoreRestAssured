@@ -35,12 +35,7 @@ pipeline {
                     // Find the latest report
                     def latestReportFile = bat(script: '''
                         @echo off
-                        setlocal enabledelayedexpansion
-                        set "latest="
-                        for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do (
-                            set "latest=%%~fi"
-                            goto :done
-                        )
+                        for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do set "latest=%%~fi" & goto :done
                         :done
                         echo !latest!
                         ''', returnStdout: true).trim()
