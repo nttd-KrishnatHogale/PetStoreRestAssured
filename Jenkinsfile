@@ -25,8 +25,10 @@ pipeline {
     post {
         always {
             script {
+            dir('PetStoreRestAssuredProject/reports'){
                 bat 'cd'
                 bat 'dir'
+                }
             }
         }
     }
