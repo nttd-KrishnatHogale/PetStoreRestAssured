@@ -25,52 +25,32 @@ pipeline {
     post {
         always {
             script {
-                try {
-                    def reportsDir = 'PetStoreRestAssuredProject/reports'
-                    def latestFile
+                // Change directory to where the reports are located
+                dir("${env.REPORTS_DIR}") {
+                    // Find the latest report file
+                    def latestFile = null
+                    def latestDateTime = null
+                    def formatter = java.time.format.DateTimeFormatter.ofPattern('yyyy.MM.dd.HH.mm.ss')
 
-                    dir(reportsDir) {
-                        // Print the reports directory for debugging
-                        echo "Reports Directory: ${reportsDir}"
+                    // Iterate over the files to find the latest one
+                    new File('.').listFiles().findAll { it.name.endsWith('.html') }.each { file ->
+                        def fileName = file.name
+                        def dateTimeString = fileName.replaceAll('Test-Report-', '').replaceAll('.html', '')
+                        def fileDateTime = java.time.LocalDateTime.parse(dateTimeString, formatter)
 
-                        // Find the latest report file
-                        latestFile = bat(
-                            script: '''
-                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latestfilename=%%a" & goto :done
-                            :done
-                            echo %latestfilename%
-                            ''',
-                            returnStdout: true
-                        ).trim()
-
-                        // Print the latest file for debugging
-                        echo "Latest File: ${latestfilename}"
-
-                        if (latestFile) {
-                            // Archive the latest report file
-                            archiveArtifacts artifacts: "${reportsDir}/${latestFile}", allowEmptyArchive: true
-
-                            // Create HTML file with a clickable link to the latest report
-                            def htmlContent = """<html>
-                            <head><title>Latest Report</title></head>
-                            <body>
-                            <p><a href="${env.BUILD_URL}artifact/${reportsDir}/${latestFile}">Latest result_${env.BUILD_NUMBER}</a></p>
-                            </body>
-                            </html>"""
-                            writeFile file: "latest_result_${env.BUILD_NUMBER}.html", text: htmlContent
-
-                            // Archive the HTML file
-                            archiveArtifacts artifacts: "latest_result_${env.BUILD_NUMBER}.html", allowEmptyArchive: true
-
-                            // Print the clickable link to the Jenkins console
-                            echo "The latest generated file can be found at: ${env.BUILD_URL}artifact/${reportsDir}/${latestFile}"
-                        } else {
-                            echo "No files found in the reports directory."
+                        if (latestDateTime == null || fileDateTime.isAfter(latestDateTime)) {
+                            latestDateTime = fileDateTime
+                            latestFile = file
                         }
                     }
-                } catch (Exception e) {
-                    echo "An error occurred: ${e.getMessage()}"
-                    currentBuild.result = 'FAILURE'
+
+                    if (latestFile != null) {
+                        echo "The latest generated file is: ${latestFile.absolutePath}"
+                        // For example, archive the latest file
+                        archiveArtifacts artifacts: latestFile.name
+                    } else {
+                        echo "No report files found."
+                    }
                 }
             }
         }
