@@ -32,9 +32,11 @@ pipeline {
                     dir(reportsDir) {
                         latestFile = bat(
                             script: '''
-                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
+                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do set "latest =  %%~fa" @echo %%a & goto :done
                             :done
                             ''', returnStdout: true).trim()
+                            echo ^<a href="file://%latest%"^>Latest result_%BUILD_NUMBER%^</a^> >> latest_result_%BUILD_NUMBER%.html
+                            start latest_result_%BUILD_NUMBER%.html
 
                         // Print the contents of the directory for debugging
                         bat "dir /b"
@@ -49,7 +51,7 @@ pipeline {
                      def baseUrl = "${latestFile}"
 
                         echo "The latest generated file can be found at: ${baseUrl}"
-                        echo "${baseUrl}/${latestFile}"
+//                         echo "${baseUrl}/${latestFile}"
                     } else {
                         echo "No files found in the reports directory."
                     }
