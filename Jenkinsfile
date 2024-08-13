@@ -25,6 +25,7 @@ pipeline {
     post {
         always {
             script {
+            dir('PetStoreRestAssuredProject/reports'){
                 def reportsDir = 'PetStoreRestAssuredProject/reports'
                 def latestFile = bat(
                     script: '''
@@ -38,6 +39,7 @@ pipeline {
                 // Output the clickable link
                 def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
                 echo "The latest generated file can be found at: ${baseUrl}"
+                }
             }
         }
     }
