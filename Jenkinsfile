@@ -23,13 +23,41 @@ pipeline {
     }
 
     post {
-        always {
-            script {
-            dir('PetStoreRestAssuredProject/reports'){
-                bat 'cd'
-                bat 'dir'
+            always {
+                script {
+                    // Define the path to the reports directory
+                    def reportsDir = 'PetStoreRestAssuredProject/reports'
+
+                    // Navigate to the reports directory
+                    bat "cd ${reportsDir}"
+
+                    // Find the latest report
+                    def latestReportFile = bat(script: '''
+                        @echo off
+                        setlocal enabledelayedexpansion
+                        set "latest="
+                        for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do (
+                            set "latest=%%~fi"
+                            goto :done
+                        )
+                        :done
+                        echo !latest!
+                        ''', returnStdout: true).trim()
+
+                    // Define the build number variable if not already set
+                    def buildNumber = env.BUILD_NUMBER ?: 'unknown'
+
+                    // Generate the HTML file with the link to the latest report
+                    def resultFile = "latest_result_${buildNumber}.html"
+                    bat """
+                        @echo off
+                        echo ^<a href="file:///${latestReportFile.replaceAll('/', '\\\\')}"^>Latest result_${buildNumber}^</a^> > ${resultFile}
+                        start ${resultFile}
+                        """
+
+                    // Optionally, you could archive the result file
+                    // archiveArtifacts artifacts: resultFile
                 }
             }
         }
-    }
 }
