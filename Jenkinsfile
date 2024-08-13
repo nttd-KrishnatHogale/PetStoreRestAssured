@@ -26,7 +26,12 @@ pipeline {
                 script {
                 dir('PetStoreRestAssuredProject/reports')
                 {
-                bat 'cd'
+                def latestFile = bat(
+                script: '''
+                for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
+                :done
+                ''', returnStdout: true).trim()
+                echo "The latest generated file is: ${latestFile}"
 //                     // Find the latest report file
 //                     def latestFile = bat(script: """
 //                         for /f "delims=" %%i in ('dir /b /a-d /o-d ${env.REPORTS_DIR}\\Test-Report-*.html') do @echo %%i
