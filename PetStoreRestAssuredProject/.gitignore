@@ -5,6 +5,7 @@ target/
 
 logs/
 reports/
+allure-results/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
