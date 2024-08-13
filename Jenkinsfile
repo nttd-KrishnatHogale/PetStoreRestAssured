@@ -25,26 +25,35 @@ pipeline {
     post {
         always {
             script {
-            def latestFile
-            dir('PetStoreRestAssuredProject/reports'){
-//                 def reportsDir = 'PetStoreRestAssuredProject/reports'
-                 latestFile = bat(
-                    script: '''
-                    for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c "%s"') do @echo %%a & goto :done
-                    :done
-                    ''', returnStdout: true).trim()
+                try {
+                    def reportsDir = 'PetStoreRestAssuredProject/reports'
+                    def latestFile
+
+                    dir(reportsDir) {
+                        latestFile = bat(
+                            script: '''
+                            for /f "delims=" %%a in ('dir /b /a-d /o-d /t:c') do @echo %%a & goto :done
+                            :done
+                            ''', returnStdout: true).trim()
+
+                        // Print the contents of the directory for debugging
+                        bat "dir /b"
                     }
-                    if (latestFile){
-                 // Archive the latest file
-                 archiveArtifacts artifacts: "${env.REPORTS_DIR}/${latestFile}", allowEmptyArchive: true
 
-                // Output the clickable link
-                def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
-                echo "The latest generated file can be found at: ${baseUrl}"
+                    if (latestFile) {
+                        // Archive the latest file
+                        archiveArtifacts artifacts: "${reportsDir}/${latestFile}", allowEmptyArchive: true
+
+                        // Output the clickable link
+                        def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
+                        echo "The latest generated file can be found at: ${baseUrl}"
+                    } else {
+                        echo "No files found in the reports directory."
+                    }
+                } catch (Exception e) {
+                    echo "An error occurred: ${e.getMessage()}"
+                    currentBuild.result = 'FAILURE'
                 }
-                else{
-                echo "No files in reports directory"}
-
             }
         }
     }
