@@ -45,7 +45,9 @@ pipeline {
                         archiveArtifacts artifacts: "${reportsDir}/${latestFile}", allowEmptyArchive: true
 
                         // Output the clickable link
-                        def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
+//                         def baseUrl = "${env.JENKINS_URL}/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/artifact/${reportsDir}/${latestFile}"
+                     def baseUrl = "${latestFile}"
+
                         echo "The latest generated file can be found at: ${baseUrl}"
                         echo "${baseUrl}/${latestFile}"
                     } else {
