@@ -32,7 +32,7 @@ pipeline {
                     // Navigate to the reports directory
                     bat "cd /d ${reportsDir} && dir"
 
-                    bat """cd PetStoreRestAssuredProject\reports
+                    bat """cd PetStoreRestAssuredProject\\reports
 
                     for /f "delims=" %%i in ('dir /b /a-d /o-d "Test-Report-*.html"') do (
                              set "latest=%%~fi"
