@@ -26,7 +26,7 @@ pipeline {
             always {
                 script {
                     // Define the path to the reports directory
-                    def reportsDir = 'PetStoreRestAssuredProject\\reports'
+                    def reportsDir = "${env.REPORTS_DIR}"
                     def buildNumber = env.BUILD_NUMBER ?: 'unknown'
                     // Navigate to the reports directory
                     bat "cd /d ${reportsDir} && dir"
